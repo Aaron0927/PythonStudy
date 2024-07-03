@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+{#    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">#}
+{#    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">#}
+    <title>{% block title %}{% endblock %}-知了博客</title>
+    <link rel="stylesheet" href="{% static 'bootstrap5/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap5/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+<header class="p-3 text-bg-light border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="{% static 'image/logo800.png' %}" height="40px">
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/" class="nav-link px-2 text-secondary">首页</a></li>
+                <li><a href="{% url 'blog:pub_blog' %}" class="nav-link px-2 text-secondary">博客</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get" action="{% url 'blog:blog_search' %}">
+                <input name="q" type="search" class="form-control" placeholder="搜索..." aria-label="Search">
+            </form>
+
+            {% if user.is_authenticated %}
+                <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'image/avator.avif' %}" alt="mdo" width="32" height="32" class="rounded-circle" data-cubox-image-id="1d183a744db6a064525e63155fce7b4a" data-cubox-image-index="0" data-cubox-image-load="false">
+          </a>
+          <ul class="dropdown-menu text-small" style="">
+            <li><a class="dropdown-item" href="{% url 'zlauth:logout' %}">退出登录</a></li>
+          </ul>
+        </div>
+            {% else %}
+                <div class="text-end">
+                    <a href="{% url 'zlauth:login' %}" type="button" class="btn btn-outline-primary me-2">登录</a>
+                    <a href="{% url 'zlauth:register' %}" type="button" class="btn btn-primary">注册</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+<main class="container bg-white mt-2 p-3 rounded">
+    {% block main %}{% endblock %}
+</main>
+</body>
+</html>
